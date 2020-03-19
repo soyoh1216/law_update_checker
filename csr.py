@@ -34,19 +34,25 @@ def getJpDate(jp):
 def createFile(val):
 	now_time = datetime.now()
 	now_time = now_time.strftime('%Y%m')
-	with open(now_time + ".csv", "w") as w:
+	with open(now_time + ".csv", 'w', newline='') as w:
 		writer = csv.writer(w)
 		writer.writerows(val)
 
-
-with open('laws_test.csv') as f:
+with open('laws_test.csv', 'r') as f:
 	reader = csv.reader(f)
 	# 日付変換するなら使うかも
 	# print(kanji2int("平成三十一年"))
-
+	
+	val = []
 	for rd in reader:
 		latestUpdate = getTxt(rd[1])
-		latestUpdate = getJpDate(latestUpdate)
+		val.append([rd[0] + "," + getJpDate(latestUpdate)])
 	
-		createFile(rd[0] + "," + latestUpdate)
-		# 作られるファイルがらりってるｗ
+	# 	print(rd[0] + "," + latestUpdate)
+		
+	# この形にしたい val = [['a','123'],['b','567']]
+	# val.append(['a','123'])
+	# val.append(['b','567'])
+	print(val)
+	createFile(val)
+	#createFile(rd[0] + "," + latestUpdate)
